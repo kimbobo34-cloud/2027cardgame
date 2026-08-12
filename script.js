@@ -3,7 +3,7 @@ const timerDisplay = document.getElementById("timer");
 const restartBtn = document.getElementById("restartBtn");
 
 const totalTime = 20;
-const PREVIEW_SECONDS = 5;
+const PREVIEW_SECONDS = 10;
 const GRID_COLS = 4;
 const GRID_ROWS = 4;
 const CANDIDATE_IMAGE_COUNT = 18;
