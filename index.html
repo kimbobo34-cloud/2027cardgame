@@ -7,10 +7,37 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>💙Chungcheong 2027💙<br>Memory Matching Game</h1>
-  <div id="timer">남은 시간: 20초</div>
-  <button id="restartBtn">다시 시작</button>
-  <div class="game-board" id="gameBoard"></div>
+
+  <!-- 언어 선택 화면 -->
+  <div id="languageScreen">
+    <h1>💙 Chungcheong 2027 💙</h1>
+    <h2 id="languageTitle">언어를 선택해주세요</h2>
+
+    <div class="language-buttons">
+      <button id="koreanBtn">🇰🇷 한국어</button>
+      <button id="englishBtn">🇺🇸 English</button>
+    </div>
+  </div>
+
+  <!-- 게임 화면 -->
+  <div id="gameScreen">
+
+    <!-- 언어 변경 버튼 -->
+    <div id="languageSwitch">
+      <button id="switchKorean">한국어</button>
+      <span>|</span>
+      <button id="switchEnglish">English</button>
+    </div>
+
+    <h1 id="gameTitle">💙 Chungcheong 2027 💙<br>Memory Matching Game</h1>
+
+    <div id="timer">남은 시간: 20초</div>
+
+    <button id="restartBtn">다시 시작</button>
+
+    <div class="game-board" id="gameBoard"></div>
+
+  </div>
 
   <script src="script.js"></script>
 </body>
