@@ -32,7 +32,7 @@ function shuffle(array) {
 }
 
 function createDeck() {
-  // 반드시 각 그룹에서 최소 1장씩 선택
+  // 각 그룹에서 최소 1장씩 반드시 선택
   const groups = [
     [1, 2, 3],
     [4, 5],
@@ -61,7 +61,7 @@ function createDeck() {
     remainingNumbers.slice(0, PAIR_COUNT - selectedNumbers.length)
   );
 
-  // 최종 8장도 랜덤한 순서로 섞기
+  // 최종 8장의 순서도 랜덤으로 섞기
   shuffle(selectedNumbers);
 
   // 숫자를 이미지 경로로 변환
@@ -78,16 +78,20 @@ function createDeck() {
 function fitBoardToViewport() {
   const cs = getComputedStyle(gameBoard);
   const gap = parseFloat(cs.gap) || 0;
+
   const padH =
     (parseFloat(cs.paddingLeft) || 0) +
     (parseFloat(cs.paddingRight) || 0);
+
   const marV =
     (parseFloat(cs.marginTop) || 0) +
     (parseFloat(cs.marginBottom) || 0);
+
   const maxW = parseFloat(cs.maxWidth) || Infinity;
 
   const titleH = document.querySelector("h1")?.offsetHeight || 0;
   const timerH = timerDisplay?.offsetHeight || 0;
+
   const restartH =
     restartBtn.style.display !== "none"
       ? restartBtn.offsetHeight + 16
@@ -246,6 +250,14 @@ function checkMatch() {
   if (card1.dataset.image === card2.dataset.image) {
     matchedSets++;
     flippedCards = [];
+
+    // 8세트를 모두 맞추면 즉시 게임 종료
+    if (matchedSets === PAIR_COUNT) {
+      clearInterval(countdown);
+      endGame(true);
+      return;
+    }
+
     lockBoard = false;
   } else {
     setTimeout(() => {
@@ -269,16 +281,22 @@ function startTimer() {
 
     if (timeLeft <= 0) {
       clearInterval(countdown);
-      endGame();
+      endGame(false);
     }
   }, 1000);
 }
 
-function endGame() {
+function endGame(isSuccess = false) {
   lockBoard = true;
+  clearInterval(countdown);
 
-  timerDisplay.textContent =
-    `시간 종료! ${matchedSets}세트 성공!`;
+  if (isSuccess) {
+    timerDisplay.textContent =
+      `🎉 게임 완료! ${matchedSets}세트 모두 성공!`;
+  } else {
+    timerDisplay.textContent =
+      `시간 종료! ${matchedSets}세트 성공!`;
+  }
 
   restartBtn.style.display = "inline-block";
 
