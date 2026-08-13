@@ -32,8 +32,47 @@ function shuffle(array) {
 }
 
 function createDeck() {
-  const selectedImages = shuffle([...candidateImages]).slice(0, PAIR_COUNT);
-  return shuffle(selectedImages.flatMap(src => [src, src]));
+  // 반드시 각 그룹에서 최소 1장씩 선택
+  const groups = [
+    [1, 2, 3],
+    [4, 5],
+    [6, 7, 8, 9, 10, 11, 12, 13],
+    [14, 15, 16, 17, 18]
+  ];
+
+  // 각 그룹에서 랜덤으로 1장씩 선택
+  let selectedNumbers = groups.map(group => {
+    return group[Math.floor(Math.random() * group.length)];
+  });
+
+  // 이미 선택된 카드를 제외한 나머지 카드
+  const remainingNumbers = [];
+
+  for (let i = 1; i <= CANDIDATE_IMAGE_COUNT; i++) {
+    if (!selectedNumbers.includes(i)) {
+      remainingNumbers.push(i);
+    }
+  }
+
+  // 나머지 4장을 랜덤으로 선택
+  shuffle(remainingNumbers);
+
+  selectedNumbers = selectedNumbers.concat(
+    remainingNumbers.slice(0, PAIR_COUNT - selectedNumbers.length)
+  );
+
+  // 최종 8장도 랜덤한 순서로 섞기
+  shuffle(selectedNumbers);
+
+  // 숫자를 이미지 경로로 변환
+  const selectedImages = selectedNumbers.map(
+    number => `img/${number}.jpg`
+  );
+
+  // 각 이미지를 2장씩 만들어 총 16장 구성
+  return shuffle(
+    selectedImages.flatMap(src => [src, src])
+  );
 }
 
 function fitBoardToViewport() {
